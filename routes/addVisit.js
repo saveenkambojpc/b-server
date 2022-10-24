@@ -4,10 +4,14 @@ const client = require("../db/database");
 
 const router = express.Router();
 
-router.post("/addVisitForm", (req, res) => {
-    console.log("You are making post request")
-    console.log(req.body)
-  
+router.post("/addVisitForm", async (req, res) => {
+    // Connecting to database
+    const { database } = await client.databases.createIfNotExists({ id: "Biocon" });
+    const { container } = await database.containers.createIfNotExists({ id: "AddVisitForm" });
+
+    console.log("You hit the backend",req.body)
+    // Push data to db
+    container.items.create(req.body)
 })
 
 
